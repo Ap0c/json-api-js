@@ -58,6 +58,27 @@ function malformedRequest (error) {
 
 	errRes = buildResponse('malformed-request', null, payload);
 
-	return {success: false, err_response: errRes};
+	return { success: false, err_response: errRes };
+
+}
+
+// Checks for problems with the request.
+function checkRequest (request) {
+
+	var requestFields = Object.keys(request);
+
+	// Checks the correct fields are present.
+	if (REQUEST_FIELDS.every(field => requestFields.indexOf(field) >= 0)) {
+
+		// Checks the request type is permitted.
+		if (REQUESTS.indexOf(request.action) >= 0) {
+			return { success: true, result: request };
+		} else {
+			return malformedRequest('TYPE');
+		}
+
+	} else {
+		return malformedRequest('FIELDS');
+	}
 
 }
