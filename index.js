@@ -38,9 +38,9 @@ function buildResponse (response, data_type, payload, info) {
 
 	var message = {
 		response: response,
-		data_type: data_type,
-		payload: payload,
-		message_info: info
+		data_type: data_type || null,
+		payload: payload || null,
+		message_info: info || null
 	};
 
 	try {
@@ -48,5 +48,16 @@ function buildResponse (response, data_type, payload, info) {
 	} catch (err) {
 		throw new Error(`Problem building response: ${err.message}`);
 	}
+
+}
+
+// Creates a response for a malformed API request.
+function malformedRequest (error) {
+
+	payload = MALFORMED_REQUESTS[error];
+
+	errRes = buildResponse('malformed-request', null, payload);
+
+	return {success: false, err_response: errRes};
 
 }
