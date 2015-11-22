@@ -1,7 +1,7 @@
 // ----- Setup ----- //
 
 // The request types and their response messages.
-var REQUESTS = {
+let REQUESTS = {
 	create: {
 		success: 'created',
 		failure: 'create_fail'
@@ -21,10 +21,10 @@ var REQUESTS = {
 };
 
 // The fields that appear in a request.
-var REQUEST_FIELDS = ['action', 'data_type', 'payload', 'message_info'];
+let REQUEST_FIELDS = ['action', 'data_type', 'payload', 'message_info'];
 
 // The error messages corresponding to failed requests.
-var MALFORMED_REQUESTS = {
+let MALFORMED_REQUESTS = {
 	'JSON': 'JSON malformed.',
 	TYPE: 'Invalid request type.',
 	FIELDS: 'Invalid request fields.'
@@ -36,7 +36,7 @@ var MALFORMED_REQUESTS = {
 // Creates an API response of the correct format.
 function buildResponse (response, data_type, payload, info) {
 
-	var message = {
+	let message = {
 		response: response,
 		data_type: data_type || null,
 		payload: payload || null,
@@ -54,9 +54,9 @@ function buildResponse (response, data_type, payload, info) {
 // Creates a response for a malformed API request.
 function malformedRequest (error) {
 
-	payload = MALFORMED_REQUESTS[error];
+	let payload = MALFORMED_REQUESTS[error];
 
-	errRes = buildResponse('malformed-request', null, payload);
+	let errRes = buildResponse('malformed-request', null, payload);
 
 	return { success: false, err_response: errRes };
 
@@ -65,7 +65,7 @@ function malformedRequest (error) {
 // Checks for problems with the request.
 function checkRequest (request) {
 
-	var requestFields = Object.keys(request);
+	let requestFields = Object.keys(request);
 
 	// Checks the correct fields are present.
 	if (REQUEST_FIELDS.every(field => requestFields.indexOf(field) >= 0)) {
@@ -82,3 +82,27 @@ function checkRequest (request) {
 	}
 
 }
+
+// Creates a response from an API request.
+function response (request, success, payload, info) {
+
+	let action = request.action;
+	let response_type = null;
+
+	if (success) {
+		response_type = REQUESTS[action].success;
+	} else {
+		response_type = REQUESTS[action].failure;
+	}
+
+	return buildResponse(response_type, request.data_type, payload, info);
+
+}
+
+
+
+// ----- Exports ----- //
+
+module.exports = {
+	response: response
+};
