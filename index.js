@@ -87,22 +87,37 @@ function checkRequest (request) {
 function response (request, success, payload, info) {
 
 	let action = request.action;
-	let response_type = null;
+	let responseType = null;
 
 	if (success) {
-		response_type = REQUESTS[action].success;
+		responseType = REQUESTS[action].success;
 	} else {
-		response_type = REQUESTS[action].failure;
+		responseType = REQUESTS[action].failure;
 	}
 
-	return buildResponse(response_type, request.data_type, payload, info);
+	return buildResponse(responseType, request.data_type, payload, info);
 
 }
 
+// Decodes the JSON in an API request.
+function decodeRequest (request) {
+
+	let apiRequest = null;
+
+	try {
+		JSON.parse(request);
+	} catch (err) {
+		return malformedRequest('JSON');
+	}
+
+	return checkRequest(apiRequest);
+
+}
 
 
 // ----- Exports ----- //
 
 module.exports = {
-	response: response
+	response: response,
+	decodeRequest: decodeRequest
 };
