@@ -28,4 +28,24 @@ describe('Tests the request decoding functionality.', function () {
 
 	});
 
+	it('Should produce a malformed JSON response string', function () {
+
+		var request = `{
+			"action": "retrieve"
+			"data_type": "string",
+			"payload": null,
+			"message_info": null
+		}`;
+
+		var result = api.decodeRequest(request);
+		expect(result.success).to.be.false;
+
+		var response = JSON.parse(result.err_response);
+		expect(response.response).to.equal('malformed-request');
+		expect(response.data_type).to.be.null;
+		expect(response.payload).to.equal('JSON malformed.');
+		expect(response.message_info).to.be.null;
+
+	});
+
 });

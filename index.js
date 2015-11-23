@@ -1,4 +1,5 @@
 'use strict';
+
 // ----- Setup ----- //
 
 // The request types and their response messages.
