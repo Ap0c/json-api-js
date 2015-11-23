@@ -1,5 +1,5 @@
 {
-  "name": "json-api",
+  "name": "json-api-js",
   "version": "0.1.0",
   "description": "A simple, structured JSON API for communication between apps in a network.\"",
   "main": "index.js",
