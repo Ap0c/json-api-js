@@ -1,3 +1,4 @@
+'use strict';
 // ----- Setup ----- //
 
 // The request types and their response messages.
@@ -71,7 +72,7 @@ function checkRequest (request) {
 	if (REQUEST_FIELDS.every(field => requestFields.indexOf(field) >= 0)) {
 
 		// Checks the request type is permitted.
-		if (REQUESTS.indexOf(request.action) >= 0) {
+		if (REQUESTS.hasOwnProperty(request.action)) {
 			return { success: true, result: request };
 		} else {
 			return malformedRequest('TYPE');
@@ -105,7 +106,7 @@ function decodeRequest (request) {
 	let apiRequest = null;
 
 	try {
-		JSON.parse(request);
+		apiRequest = JSON.parse(request);
 	} catch (err) {
 		return malformedRequest('JSON');
 	}
