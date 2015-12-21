@@ -25,11 +25,21 @@ let REQUESTS = {
 // The fields that appear in a request.
 let REQUEST_FIELDS = ['action', 'data_type', 'payload', 'message_info'];
 
+// The fields that appear in a response.
+let RESPONSE_FIELDS = ['response', 'data_type', 'payload', 'message_info'];
+
 // The error messages corresponding to failed requests.
 let MALFORMED_REQUESTS = {
 	'JSON': 'JSON malformed.',
 	TYPE: 'Invalid request type.',
 	FIELDS: 'Invalid request fields.'
+};
+
+// The error messages corresponding to problematic responses.
+let MALFORMED_RESPONSES = {
+	'JSON': 'JSON malformed.',
+	'TYPE': 'Invalid response type.',
+	'FIELDS': 'Invalid response fields.'
 };
 
 
@@ -81,6 +91,30 @@ function checkRequest (request) {
 
 	} else {
 		return malformedRequest('FIELDS');
+	}
+
+}
+
+// Checks for problems with a received response.
+function checkResponse(request, response) {
+
+	let responseFields = Object.keys(request);
+
+	// Checks the correct response fields are present.
+	if (RESPONSE_FIELDS.every(field => responseFields.indexOf(field) >= 0)) {
+
+		let allowed_responses = Object.keys(REQUESTS[request.action]);
+		allowed_responses.push('malformed-request');
+
+		// Checks the response type is permitted.
+		if (allowed_responses.indexOf(response.response) >= 0) {
+			return {success: true, result: request};
+		} else {
+			return {success: false, error: MALFORMED_RESPONSES.TYPE};
+		}
+
+	} else {
+		return {success: false, error: MALFORMED_RESPONSES.FIELDS};
 	}
 
 }
@@ -140,10 +174,26 @@ function request (action, data_type, payload, info) {
 
 }
 
+// Decodes the JSON in an API response.
+function decodeResponse(request, response) {
+
+	let apiResponse = null;
+
+	try {
+		apiResponse = JSON.parse(response);
+	} catch (err) {
+		return {success: false, error: MALFORMED_RESPONSES.JSON};
+	}
+
+	return checkResponse(request, apiResponse);
+
+}
 
 // ----- Exports ----- //
 
 module.exports = {
 	response: response,
-	decodeRequest: decodeRequest
+	decodeRequest: decodeRequest,
+	request: request,
+	decodeResponse: decodeResponse
 };
