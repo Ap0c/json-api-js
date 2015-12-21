@@ -116,6 +116,30 @@ function decodeRequest (request) {
 
 }
 
+// Creates a JSON request.
+function request (action, data_type, payload, info) {
+
+	if (REQUESTS.hasOwnProperty(action)) {
+
+		let message = {
+			action: action,
+			data_type: data_type || null,
+			payload: payload || null,
+			message_info: info || null
+		};
+
+		try {
+			return JSON.stringify(message);
+		} catch (err) {
+			throw new Error(`Problem building response: ${err.message}`);
+		}
+
+	} else {
+		throw new Error(`Request verb not permitted: ${action}`);
+	}
+
+}
+
 
 // ----- Exports ----- //
 
