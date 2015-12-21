@@ -1,7 +1,7 @@
 JSON API - Javascript
 =====================
 
-A simple, structured JSON API written in Javascript, for communication between apps in a network.
+A simple, structured JSON API written in Javascript, for communication between apps in a network. View the Python version [here](https://github.com/Ap0c/json-api-py).
 
 ## To Use
 
