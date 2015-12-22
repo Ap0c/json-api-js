@@ -136,17 +136,25 @@ function response (request, success, payload, info) {
 }
 
 // Decodes the JSON in an API request.
-function decodeRequest (request) {
+function decodeRequest (request, parsed) {
 
-	let apiRequest = null;
+	if (parsed) {
 
-	try {
-		apiRequest = JSON.parse(request);
-	} catch (err) {
-		return malformedRequest('JSON');
+		return checkRequest(request);
+
+	} else {
+
+		let apiRequest = null;
+
+		try {
+			apiRequest = JSON.parse(request);
+		} catch (err) {
+			return malformedRequest('JSON');
+		}
+
+		return checkRequest(apiRequest);
+
 	}
-
-	return checkRequest(apiRequest);
 
 }
 
