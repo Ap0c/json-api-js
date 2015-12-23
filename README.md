@@ -31,6 +31,14 @@ sendOffResponse(response);
 
 ```
 
+## A Note on Browser Compatibility
+
+This script is designed to work with both Node and in the browser. However, it uses certain features from ES6 that may not work in some browsers. [Babel](https://babeljs.io) is used to get round this, and is included as a development dependency. Either use the pre-compiled `json-api.js` file, or recompile it with babel (recommended as the pre-compiled version may not be up-to-date):
+
+```js
+npm run build
+```
+
 ## Request Format
 
 All JSON requests made to an application using this API must have the following four fields:

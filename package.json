@@ -4,11 +4,15 @@
   "description": "A simple, structured JSON API for communication between apps in a network.\"",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha"
+    "test": "mocha",
+    "build": "babel index.js -o json-api.js"
   },
   "author": "Ap0c",
   "license": "MIT",
   "devDependencies": {
+    "babel-cli": "^6.3.17",
+    "babel-plugin-transform-es2015-arrow-functions": "^6.3.13",
+    "babel-plugin-transform-es2015-block-scoping": "^6.3.13",
     "chai": "^3.4.1",
     "mocha": "^2.3.4"
   }
