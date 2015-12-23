@@ -159,21 +159,21 @@ function decodeRequest (request, parsed) {
 }
 
 // Creates a JSON request.
-function request (action, data_type, payload, info) {
+function request (action, dataType, payload, info) {
 
 	if (REQUESTS.hasOwnProperty(action)) {
 
 		let message = {
 			action: action,
-			data_type: data_type || null,
+			dataType: dataType || null,
 			payload: payload || null,
 			message_info: info || null
 		};
 
 		try {
-			return JSON.stringify(message);
+			return {request: JSON.stringify(message), requestObj: message};
 		} catch (err) {
-			throw new Error(`Problem building response: ${err.message}`);
+			throw new Error(`Problem building request: ${err.message}`);
 		}
 
 	} else {
