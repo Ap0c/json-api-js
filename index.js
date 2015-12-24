@@ -98,7 +98,7 @@ function checkRequest (request) {
 // Checks for problems with a received response.
 function checkResponse(request, response) {
 
-	let responseFields = Object.keys(request);
+	let responseFields = Object.keys(response);
 
 	// Checks the correct response fields are present.
 	if (RESPONSE_FIELDS.every(field => responseFields.indexOf(field) >= 0)) {
