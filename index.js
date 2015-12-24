@@ -165,7 +165,7 @@ function request (action, dataType, payload, info) {
 
 		let message = {
 			action: action,
-			dataType: dataType || null,
+			data_type: dataType || null,
 			payload: payload || null,
 			message_info: info || null
 		};
