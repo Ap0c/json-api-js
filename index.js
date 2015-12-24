@@ -103,11 +103,12 @@ function checkResponse(request, response) {
 	// Checks the correct response fields are present.
 	if (RESPONSE_FIELDS.every(field => responseFields.indexOf(field) >= 0)) {
 
-		let allowed_responses = Object.keys(REQUESTS[request.action]);
-		allowed_responses.push('malformed-request');
+		let responses = REQUESTS[request.action];
+		let allowedResponses = [responses.success, responses.failure,
+			'malformed-request'];
 
 		// Checks the response type is permitted.
-		if (allowed_responses.indexOf(response.response) >= 0) {
+		if (allowedResponses.indexOf(response.response) >= 0) {
 			return {success: true, result: request};
 		} else {
 			return {success: false, error: MALFORMED_RESPONSES.TYPE};
