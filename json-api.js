@@ -97,18 +97,18 @@ function checkRequest(request) {
 // Checks for problems with a received response.
 function checkResponse(request, response) {
 
-	var responseFields = Object.keys(request);
+	var responseFields = Object.keys(response);
 
 	// Checks the correct response fields are present.
 	if (RESPONSE_FIELDS.every(function (field) {
 		return responseFields.indexOf(field) >= 0;
 	})) {
 
-		var allowed_responses = Object.keys(REQUESTS[request.action]);
-		allowed_responses.push('malformed-request');
+		var responses = REQUESTS[request.action];
+		var allowedResponses = [responses.success, responses.failure, 'malformed-request'];
 
 		// Checks the response type is permitted.
-		if (allowed_responses.indexOf(response.response) >= 0) {
+		if (allowedResponses.indexOf(response.response) >= 0) {
 			return { success: true, result: request };
 		} else {
 			return { success: false, error: MALFORMED_RESPONSES.TYPE };
@@ -160,7 +160,7 @@ function request(action, dataType, payload, info) {
 
 		var message = {
 			action: action,
-			dataType: dataType || null,
+			data_type: dataType || null,
 			payload: payload || null,
 			message_info: info || null
 		};
