@@ -72,11 +72,13 @@ All fields apart from `response` may be `null`.
 
 ## API
 
-### api.decodeRequest(*request*)
+### api.decodeRequest(*request*, *[parsed]*)
 
 Takes a JSON-encoded API request, checks it for the correct format, and returns the equivalent js object. If there are any problems, returns a ready-made JSON response detailing this.
 
 - `request`: A JSON-encoded API request.
+
+- `parsed` (*optional*): Boolean flag signifying whether the passed request has already been parsed from JSON into Javascript object format. Default is false.
 
 Return object is either of the form:
 
